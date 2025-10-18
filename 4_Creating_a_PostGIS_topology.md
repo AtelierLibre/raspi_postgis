@@ -1,4 +1,4 @@
-# 2. Creating a PostGIS topology
+# 4. Creating a PostGIS topology
 
 ## Create the extension
 
