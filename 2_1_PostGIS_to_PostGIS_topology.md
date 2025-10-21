@@ -1,0 +1,3 @@
+# PostGIS to PostGIS topology
+
+This example takes an existing PostGIS table of LineStrings and converts them directly to a PostGIS topology. Note that this version does not involve the creation of a topogeometry column in the LineStrings table...
