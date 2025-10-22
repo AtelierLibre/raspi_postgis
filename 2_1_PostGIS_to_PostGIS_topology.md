@@ -26,7 +26,7 @@ The actual geometries are held in EWKB binary blobs (?) so just running a `SELEC
 
 To see a text representation of the geometries with their full decimal places we can use: 
 
-
+`SELECT id, ST_AsText( geom ) FROM street_segments LIMIT 3;`
 
 ## Snap LineString geometries
 
