@@ -18,13 +18,13 @@ List the available databases:
 
 `\dt`
 
-```
-\c test_gis
-```
-
 ## 2. Look at a sample of the LineString table
 
-The actual geometries are held in EWKB binary blobs (?) so just running a `SELECT * FROM ...` will show that:
+The actual geometries are held in EWKB binary blobs (?) so just running a `SELECT * FROM ...` will show that. Here we ask for a sample of up to three rows:
+
+`SELECT * FROM street_segments LIMIT 3;`
+
+To see a text representation of the geometries with their full decimal places we can use: 
 
 
 
