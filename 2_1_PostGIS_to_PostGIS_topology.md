@@ -34,9 +34,21 @@ First we'll snap the lines to a grid - what this amounts to is essentially round
 
 ```
 -- Optional: light cleanup/snap to grid (set grid to your tolerance scale)
-UPDATE public.staging_lines
-SET geom = ST_SnapToGrid(geom, 0.001);  -- ~1mm in projected meters
+UPDATE street_segments
+SET geom = ST_SnapToGrid(geom, 0.1);  -- ~10cm in projected meters
 ```
+
+Check this worked using the same text representation as above.
+
+Double check this hasn't created any zero length lines:
+
+```
+SELECT ST_Length(geom) AS length
+FROM street_segments
+ORDER BY length
+LIMIT 5;
+```
+
 
 ## Create a topogeometry schema
 
