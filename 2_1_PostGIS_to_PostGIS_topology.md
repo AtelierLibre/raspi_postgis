@@ -40,7 +40,7 @@ SET geom = ST_SnapToGrid(geom, 0.1);  -- ~10cm in projected meters
 
 Check this worked using the same text representation as above.
 
-Double check this hasn't created any zero length lines:
+## Check for zero length lines
 
 ```
 SELECT ST_Length(geom) AS length
@@ -49,6 +49,37 @@ ORDER BY length
 LIMIT 5;
 ```
 
+## Add a spatial index
+
+Speeds up identification of near or intersecting geometries when building the topology. Without a spatial index, each check requires a full table scan.
+
+```
+CREATE INDEX street_segments_gix
+ON street_segments
+USING gist (geom);
+```
+
+Calculate spatial extent and distribution statistics among others to enable the PostgreSQL planner to choose an appropriate plan:
+
+```
+ANALYZE street_segments;
+```
+
+To see these stats and geometry specific stats use:
+
+```
+SELECT *
+FROM pg_stats
+WHERE tablename = 'street_segments';
+```
+
+or
+
+```
+SELECT *
+FROM geometry_columns
+WHERE f_table_name = 'street_segments';
+```
 
 ## Create a topogeometry schema
 
