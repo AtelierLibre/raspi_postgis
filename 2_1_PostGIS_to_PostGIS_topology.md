@@ -40,6 +40,8 @@ SET geom = ST_SnapToGrid(geom, 0.1);  -- ~10cm in projected meters
 
 Check this worked using the same text representation as above.
 
+### Check for duplicate lines
+
 ### Check for zero length lines
 
 ```
@@ -109,6 +111,7 @@ There seem to be a couple (?) of ways of doing this. The version described here 
 ### Option 1: Just build the topology (don't link it back to the geometry table)
 
 ```
+-- make sure the tolerance (0.1) matches the tolerance the topology was created with
 SELECT topology.TopoGeo_AddLineString('street_segment_topo', geom, 0.1)
 FROM street_segments;
 ```
@@ -124,3 +127,21 @@ compared with
 ```
 SELECT topology.TopologySummary('street_segment_topo');
 ```
+
+## Validate the results
+
+```
+SELECT topology.ValidateTopology('street_topo'); -- should return no errors
+```
+
+As listed in the output this will:
+- Check coincident nodes
+- Check edges crossing nodes
+- Check invalid or not-simple edges
+- Check crossing edges
+- Check edges start_node mismatch
+- Check edges end_node mismatch
+- Check faces without edges
+- Check edge linking
+- Build edge rings
+- Construct geometry of all faces
