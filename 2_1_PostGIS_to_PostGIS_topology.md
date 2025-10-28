@@ -104,3 +104,23 @@ SELECT topology.TopologySummary('street_segment_topo');
 
 ## Create the elements of the topology based on the street_segment geometries
 
+There seem to be a couple (?) of ways of doing this. The version described here just creates the basic topology from the given geometries, there aren't any attributes associated with the topology elements. The alternative version is more complete, adding references to the elements of the topology as a topogeometry column within the original table of the geometries used to create it. If it is just the topology that you are interested in, the distinction probably seems unnecessary. Considering attributes though (e.g. overlapping street names), or situations where a street segment also functions as a plot boundary (for example), the power of separating the attributes from the elements of the topology perhaps becomes a bit clearer.
+
+### Option 1: Just build the topology (don't link it back to the geometry table)
+
+```
+SELECT topology.TopoGeo_AddLineString('street_segment_topo', geom, 0.1)
+FROM street_segments;
+```
+
+This outputs the number of rows that were processed. In this case, comparing the number of entries in the original geometry table with the number of eges in the topologysummary shows that they both number 125.
+
+```
+SELECT COUNT(*) FROM street_segments;
+```
+
+compared with
+
+```
+SELECT topology.TopologySummary('street_segment_topo');
+```
