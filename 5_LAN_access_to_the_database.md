@@ -30,8 +30,37 @@ The line in `postgresql.conf` should look like this:
 
 The catch-all option to listen for everything is '*'.
 
-## 3. Specify where connections can come from
+## 3. Specify where connections can come from and what they can connect to
 
-`pg_hba.conf` controls where Postgres will accept connections from.
+Once the PostgreSQL server has been configured to allow connections, you need to specify where those connections can come from in
+`pg_hba.conf`. There are many possible combinations here, 
 
-This will need to be configure to cover the IP addresses of the machines that you want to connect from. In this case all of the devices on the local network have and IP address of `192.168.1.*`. This is achieved by specifying an IP address and a mask. The mask indicates which bit of the address is allowed to vary. The mask can be specified as e.g. `255.255.255.0` or by 
+The location of `pg_hba.conf` can also be found via PostgreSQL:
+
+```
+SHOW hba_file;
+```
+
+In this case, the location is `/etc/postgresql/18/main/pg_hba.conf`.
+
+This will need to be configure to cover the IP addresses of the machines that you want to connect from. In this case all of the devices on the local network have and IP address of `192.168.1.*`. This is achieved by specifying an IP address and a mask. The mask indicates which bit of the address is allowed to vary. The mask can be specified as e.g. `255.255.255.0` or by `/24` etc.
+
+Here the line we need to add at the end of the file will be:
+
+```
+# TYPE  DATABASE    USER    ADDRESS          METHOD
+# local   all         all     192.168.1.0/24   scram-sha-256
+# didn't work...
+```
+
+## Ensure there is a user with a password
+
+List all PostgreSQL users:
+
+`\du`
+
+## Restart PostgreSQL
+
+Restart PostgreSQL to have the changes take effect:
+
+`sudo systemctl restart postgresql`
