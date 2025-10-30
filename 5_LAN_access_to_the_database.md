@@ -53,8 +53,7 @@ Here the line we need to add at the end of the file will be:
 
 ```
 # TYPE  DATABASE    USER    ADDRESS          METHOD
-# host   all         all     192.168.0.0/24   scram-sha-256
-# didn't work...
+host    all         all     192.168.0.0/24   scram-sha-256
 ```
 
 ## Ensure there is a user with a password
@@ -88,3 +87,16 @@ and quit out of the `postgres` user:
 Restart PostgreSQL to have the changes take effect:
 
 `sudo systemctl restart postgresql`
+
+## Connect to the database from e.g. QGIS
+
+In the QGIS Browser panel:
+
+- right-click 'PostgreSQL'
+- New connection...
+- Give the connection a *Name*
+- Set the *Host* to the IP address of the server
+- Test Connection
+- This should request your user name and password from the database
+
+If this is all succesful you should see various databases appear under the connection under 'PostgreSQL' in the browser.
