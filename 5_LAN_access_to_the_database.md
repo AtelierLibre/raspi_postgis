@@ -26,7 +26,7 @@ By default Postgres is configured to listen for 'local' loopback connections onl
 
 The line in `postgresql.conf` should look like this:
 
-`listen_addresses = 'localhost,192.168.1.100`.
+`listen_addresses = 'localhost,192.168.1.100'`.
 
 The catch-all option to listen for everything is '*'.
 
