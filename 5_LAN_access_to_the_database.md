@@ -49,7 +49,7 @@ Here the line we need to add at the end of the file will be:
 
 ```
 # TYPE  DATABASE    USER    ADDRESS          METHOD
-# local   all         all     192.168.1.0/24   scram-sha-256
+# local   all         all     192.168.0.0/24   scram-sha-256
 # didn't work...
 ```
 
@@ -58,6 +58,12 @@ Here the line we need to add at the end of the file will be:
 List all PostgreSQL users:
 
 `\du`
+
+Check they have passwords (note: you can't retrieve the password, only set a new one):
+
+```
+SELECT rolname, rolpassword FROM pg_authid;
+```
 
 ## Restart PostgreSQL
 
