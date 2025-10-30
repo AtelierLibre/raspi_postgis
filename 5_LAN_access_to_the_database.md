@@ -8,7 +8,7 @@ The idea is to host the PostGIS database on the Raspberry Pi, but to access it f
 
 ## 1. Allocate a fixed local IP address to the Raspberry Pi
 
-I won't cover this here but I allocated the Raspberry Pi a fixed IP address from the administration settings within my home router. Essentially it entails finding the right place in the router settings to link the specific MAC address of the Raspberry Pi to a predetermined IP address. I chose `192.168.1.100`, though this will depend on your local network setup.
+I won't cover this here but I allocated the Raspberry Pi a fixed IP address from the administration settings within my home router. Essentially it entails finding the right place in the router settings to link the specific MAC address of the Raspberry Pi to a predetermined IP address. I chose `192.168.0.100`, though this will depend on your local network setup.
 
 ## 2. Configure Postgres to listen for incoming connections
 
@@ -43,7 +43,11 @@ SHOW hba_file;
 
 In this case, the location is `/etc/postgresql/18/main/pg_hba.conf`.
 
-This will need to be configure to cover the IP addresses of the machines that you want to connect from. In this case all of the devices on the local network have and IP address of `192.168.1.*`. This is achieved by specifying an IP address and a mask. The mask indicates which bit of the address is allowed to vary. The mask can be specified as e.g. `255.255.255.0` or by `/24` etc.
+To check the local subnet on the Pi run:
+
+`hostname -I`
+
+This will need to be configure to cover the IP addresses of the machines that you want to connect from. In this case all of the devices on the local network have and IP address of `192.168.0.*`. This is achieved by specifying an IP address and a mask. The mask indicates which bit of the address is allowed to vary. The mask can be specified as e.g. `255.255.255.0` or by `/24` etc.
 
 Here the line we need to add at the end of the file will be:
 
@@ -64,6 +68,20 @@ Check they have passwords (note: you can't retrieve the password, only set a new
 ```
 SELECT rolname, rolpassword FROM pg_authid;
 ```
+
+### To reset a user's password if necessary
+
+You can't retrieve user's passwords but you can reset them. First you have to log in as `postgres`:
+
+`sudo -u postgres psql`
+
+Then you can run:
+
+`ALTER USER nick WITH PASSWORD 'newpassword';`
+
+and quit out of the `postgres` user:
+
+`\q`
 
 ## Restart PostgreSQL
 
