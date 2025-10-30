@@ -53,7 +53,7 @@ Here the line we need to add at the end of the file will be:
 
 ```
 # TYPE  DATABASE    USER    ADDRESS          METHOD
-# local   all         all     192.168.0.0/24   scram-sha-256
+# host   all         all     192.168.0.0/24   scram-sha-256
 # didn't work...
 ```
 
