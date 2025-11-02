@@ -2,6 +2,18 @@
 
 ## 6.1 The basic topology layers faces, edges, nodes
 
+The basic elements of the topogeometry can be loaded into QGIS.
+
+### node
+
+### edge
+
+### edge_data
+
+### face
+
+Contains a `face_id` attribute, and the geomtry is the bounding box of each face.
+
 ## 6.2 Creating face geometries
 
 The basic topology doesn't store the face geometries. It stores the minimum amount of information needed to create the face geometries from the nodes and edges (and a bounding box representation).
