@@ -2,10 +2,27 @@
 
 ## 6.1 The basic topology layers faces, edges, nodes
 
-## 6.2 True face geometry
+## 6.2 Creating face geometries
 
-As described above the basic topology doesn't store the geometry of the faces, it stores the minimum amount of information needed to create the face geometries from the nodes and edges, and also a bounding box representation.
+The basic topology doesn't store the face geometries. It stores the minimum amount of information needed to create the face geometries from the nodes and edges (and a bounding box representation).
 
-To get the geometry of the faces into QGIS we need to use the function `topology.ST_GetFaceGeometry()` to create them.
+To get the geometry of the faces into QGIS, the function `topology.ST_GetFaceGeometry()` creates them.
 
-To start with, the idea is that we don't want to generate a permanent set of Polygons based on the current state of the topolgy. Ideally the Poloygons will be created on-the-fly ans so will reflect any changes
+### Using a view
+
+So that the geometries of the faces reflect the current state of the underlying topogeometry, we will create a ['live'] view of the faces which will update as the topogeometry updates:
+
+```
+CREATE VIEW my_topo_faces AS
+SELECT 
+  face_id,
+  topology.ST_GetFaceGeometry('street_segment_topo', face_id) AS geom
+FROM street_segment_topo.face
+WHERE face_id > 0; -- exclude the unbounded face
+```
+
+To subsequently check the SQL query behind an existing view we can use:
+
+```
+SELECT  pg_get_viewdef('my_topo_faces', true); -- where my_topo_faces is the name of the view
+```
