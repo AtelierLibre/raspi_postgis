@@ -38,3 +38,9 @@ To subsequently check the SQL query behind an existing view we can use:
 ```
 SELECT  pg_get_viewdef('my_topo_faces', true); -- where my_topo_faces is the name of the view
 ```
+
+## 6.3 Measuring and storing information about the edges
+
+The topology itself is not the place to store attribute information, even about the elements of the topologies themselves.
+
+It is best to store that information in a separate table linked to the elements in the topology.
