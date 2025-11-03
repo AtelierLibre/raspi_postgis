@@ -43,4 +43,12 @@ SELECT  pg_get_viewdef('my_topo_faces', true); -- where my_topo_faces is the nam
 
 The topology itself is not the place to store attribute information, even about the elements of the topologies themselves.
 
-It is best to store that information in a separate table linked to the elements in the topology.
+It is best to store that information in a separate attribute table linked to the elements in the topology.
+
+In this case the topology contains:
+
+- street_segment_topo.node
+- street_segment_topo.edge_data
+- street_segment_topo.face
+
+
